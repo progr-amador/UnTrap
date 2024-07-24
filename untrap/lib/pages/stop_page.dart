@@ -39,14 +39,10 @@ class _StopPageState extends State<StopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        iconTheme: IconThemeData(color: Theme.of(context).focusColor),
         title: Text(
           widget.stopId,
           style: TextStyle(
-            color: Theme.of(context).focusColor,
             fontSize: 30,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
@@ -96,13 +92,12 @@ class _StopPageState extends State<StopPage> {
                               width: 30,
                               child: SvgPicture.asset(
                                 'images/stcp.svg',
-                                color: Theme.of(context).focusColor,
+                                width: 30,
                               ),
                             ),
                             title: Text(
                               bus["bus_number"],
-                              style: TextStyle(
-                                color: Theme.of(context).focusColor,
+                              style: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -110,7 +105,6 @@ class _StopPageState extends State<StopPage> {
                             trailing: Text(
                               toAppear,
                               style: TextStyle(
-                                  color: Theme.of(context).focusColor,
                                   fontSize: 15),
                             ),
                           );

@@ -58,7 +58,6 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                         Text(
                           widget.value["stop_name"],
                           style: TextStyle(
-                            color: Theme.of(context).focusColor,
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
@@ -72,7 +71,6 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                         Text(
                           widget.value["stop_code"] + " | " + widget.value["zone_id"],
                           style: TextStyle(
-                            color: Theme.of(context).highlightColor,
                             fontSize: 20,
                             fontStyle: FontStyle.italic,
                           ),
@@ -110,13 +108,12 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                           width: 30,
                           child: SvgPicture.asset(
                             'images/stcp.svg',
-                            color: Theme.of(context).focusColor,
+                            width: 30,
                           ),
                         ),
                         title: Text(
                           bus["bus_number"],
                           style: TextStyle(
-                            color: Theme.of(context).focusColor,
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
@@ -124,7 +121,6 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                         trailing: Text(
                           toAppear,
                           style: TextStyle(
-                              color: Theme.of(context).focusColor,
                               fontSize: 15),
                         ),
                       );

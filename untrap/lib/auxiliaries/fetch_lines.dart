@@ -1,18 +1,22 @@
-import 'dart:convert';
-
+import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'package:untrap/model/line.dart';
-
 
 List<Line> lines = [];
 
 Future<void> fetchLines() async {
-  String jsonString = await rootBundle.loadString('files/lines.json');
-  Map<String, dynamic> data = json.decode(jsonString);
+  final input = await rootBundle.loadString('files/lines.csv');
+  final data = const CsvToListConverter().convert(input);
 
-  data.forEach((key, value) {
+  for (var row in data) {
+    //print(row[4].toString().toLowerCase());
     lines.add(
-      Line(number: value["number"], from: value["from"], to: value["to"],),
+      Line(
+          operator: row[0].toString(),
+          name: row[1].toString(),
+          from: row[2].toString(),
+          to: row[3].toString(),
+          color: row[4].toString().toLowerCase()),
     );
-  });
+  }
 }

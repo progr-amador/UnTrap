@@ -25,11 +25,9 @@ Future<void> fetchStops(BuildContext context) async {
           height: 30.0,
           rotate: true,
           child: IconButton(
-              icon: Icon(Icons.directions_bus,
-                  color: Theme.of(context).highlightColor),
+              icon: Icon(Icons.directions_bus),
               onPressed: () {
                 showModalBottomSheet(
-                  backgroundColor: Theme.of(context).hintColor,
                   context: context,
                   builder: (BuildContext context) {
                     return BusScheduleModal(

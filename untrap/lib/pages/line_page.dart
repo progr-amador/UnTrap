@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:untrap/components/select_time.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'stop_page.dart';
@@ -69,14 +68,10 @@ class _LinePageState extends State<LinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        iconTheme: IconThemeData(color: Theme.of(context).focusColor),
         title: Text(
           widget.line,
           style: TextStyle(
-            color: Theme.of(context).focusColor,
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
@@ -88,23 +83,18 @@ class _LinePageState extends State<LinePage> {
           children: [
             ListTile(
               leading: IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.rightLeft,
-                  color: Theme.of(context).focusColor,
-                ),
+                icon: Icon(Icons.multiple_stop, size: 40,),
                 onPressed: _swapOrigDest,
               ),
               title: Text(
                 widget.orig,
                 style: TextStyle(
-                  color: Theme.of(context).focusColor,
                   fontSize: 13,
                 ),
               ),
               subtitle: Text(
                 widget.dest,
                 style: TextStyle(
-                  color: Theme.of(context).focusColor,
                   fontSize: 13,
                 ),
               ),
@@ -127,7 +117,6 @@ class _LinePageState extends State<LinePage> {
                           title: Text(
                             stopName(stop),
                             style: TextStyle(
-                              color: Theme.of(context).focusColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,
@@ -136,7 +125,6 @@ class _LinePageState extends State<LinePage> {
                           trailing: Text(
                             stop,
                             style: TextStyle(
-                              color: Theme.of(context).focusColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,

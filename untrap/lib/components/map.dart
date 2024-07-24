@@ -7,7 +7,6 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/components/search_bar_stops.dart';
-import 'package:untrap/main.dart';
 
 List<Marker> markers = [];
 LatLng mapPosition = const LatLng(41.1579, -8.6291);
@@ -92,7 +91,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate: MyApp.of(context)!.isThemeLight()
+                    urlTemplate: Theme.of(context).brightness == Brightness.light
                         ? 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                         : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
                     tileBounds: LatLngBounds(
@@ -129,7 +128,6 @@ class _MapScreenState extends State<MapScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: FloatingActionButton(
-                        backgroundColor: Theme.of(context).highlightColor,
                         onPressed: () {
                           setState(
                             () => alignPositionOnUpdate = AlignOnUpdate.always,

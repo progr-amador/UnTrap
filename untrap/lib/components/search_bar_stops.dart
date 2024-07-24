@@ -55,16 +55,10 @@ class SearchBarStopsState extends State<SearchBarStops> {
   @override
   Widget build(BuildContext context) {
     return SearchAnchor(
-        viewBackgroundColor: Theme.of(context).hintColor,
-        dividerColor: Theme.of(context).hintColor,
-        headerHintStyle: TextStyle(color: Theme.of(context).focusColor),
-        headerTextStyle: TextStyle(color: Theme.of(context).focusColor),
         builder: (BuildContext context, SearchController controller) {
           return Padding(
             padding: const EdgeInsets.only(top: 40, left: 15, right: 15),
             child: SearchBar(
-              backgroundColor:
-                  MaterialStateProperty.all(Theme.of(context).hintColor),
               controller: controller,
               onTap: () {
                 controller.openView();
@@ -74,44 +68,34 @@ class SearchBarStopsState extends State<SearchBarStops> {
               },
               leading: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: SvgPicture.asset('images/untrap.svg',
-                    color: Theme.of(context).focusColor, height: 40),
+                child: SvgPicture.asset('images/untrap.svg', width: 30,),
               ),
               trailing: <Widget>[
                 PopupMenuButton(
-                  color: Theme.of(context).hintColor,
-                  icon: Icon(Icons.access_time,
-                      color: Theme.of(context).focusColor),
+                  icon: const Icon(Icons.access_time),
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                     PopupMenuItem(
                       onTap: () => selectDate(context),
                       child: Text(
                         "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
-                        style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                     ),
                     PopupMenuItem(
                       onTap: () => selectTime(context),
                       child: Text(
                         '${selectedDate.hour}:${selectedDate.minute.toString().padLeft(2, '0')}',
-                        style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                     ),
                     PopupMenuItem(
                       onTap: () => resetTime(),
                       child: Text(
                         'Reset Time',
-                        style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                     ),
                   ],
                 ),
               ],
               hintText: 'Search',
-              hintStyle: MaterialStatePropertyAll(
-                  TextStyle(color: Theme.of(context).focusColor)),
-              textStyle: MaterialStatePropertyAll(
-                  TextStyle(color: Theme.of(context).focusColor)),
             ),
           );
         },
@@ -125,7 +109,6 @@ class SearchBarStopsState extends State<SearchBarStops> {
             return ListTile(
               title: Text(
                 "${item.code} - ${item.name}",
-                style: TextStyle(color: Theme.of(context).focusColor),
               ),
               onTap: () {
                 mapController.move(LatLng(item.lat, item.lon), 19.0);

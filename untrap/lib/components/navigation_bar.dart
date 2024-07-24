@@ -12,32 +12,26 @@ class BottomBar extends StatelessWidget {
     return NavigationBar(
       height: 60,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-      backgroundColor: Theme.of(context).hintColor,
-      indicatorColor: Theme.of(context).highlightColor,
       selectedIndex: currentPage,
       onDestinationSelected: (int index) {
         changePage(index);
       },
-      destinations: [
+      destinations: const [
         NavigationDestination(
           selectedIcon: Icon(
             Icons.map,
-            color: Theme.of(context).focusColor,
           ),
           icon: Icon(
             Icons.map_outlined,
-            color: Theme.of(context).focusColor,
           ),
           label: 'Map',
         ),
         NavigationDestination(
           selectedIcon: Icon(
             Icons.timeline,
-            color: Theme.of(context).focusColor,
           ),
           icon: Icon(
             Icons.timeline_outlined,
-            color: Theme.of(context).focusColor,
           ),
           label: 'Lines',
         ),
