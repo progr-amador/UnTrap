@@ -42,7 +42,7 @@ class _StopPageState extends State<StopPage> {
       appBar: AppBar(
         title: Text(
           widget.stopId,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
@@ -104,7 +104,7 @@ class _StopPageState extends State<StopPage> {
                             ),
                             trailing: Text(
                               toAppear,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 15),
                             ),
                           );

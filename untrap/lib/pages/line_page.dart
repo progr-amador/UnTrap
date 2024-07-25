@@ -10,7 +10,7 @@ class LinePage extends StatefulWidget {
   final Line line;
   bool direction = true;
 
-  LinePage({Key? key, required this.line});
+  LinePage({super.key, required this.line});
 
   @override
   _LinePageState createState() => _LinePageState();
@@ -53,7 +53,7 @@ class _LinePageState extends State<LinePage> {
       appBar: AppBar(
         title: Text(
           widget.line.name,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
@@ -65,7 +65,7 @@ class _LinePageState extends State<LinePage> {
           children: [
             ListTile(
               leading: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.multiple_stop,
                   size: 40,
                 ),
@@ -73,13 +73,13 @@ class _LinePageState extends State<LinePage> {
               ),
               title: Text(
                 widget.direction ? widget.line.from : widget.line.to,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
                 ),
               ),
               subtitle: Text(
                 widget.direction ? widget.line.to : widget.line.from,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
                 ),
               ),
@@ -101,7 +101,7 @@ class _LinePageState extends State<LinePage> {
                         return ListTile(
                           title: Text(
                             stop,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,
@@ -109,7 +109,7 @@ class _LinePageState extends State<LinePage> {
                           ),
                           trailing: Text(
                             stop,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,

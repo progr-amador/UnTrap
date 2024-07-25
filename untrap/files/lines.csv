@@ -1,10 +1,15 @@
+stcp,E1,Infante,Passeio Alegre,187ec2
+stcp,E18,Clérigos,Passeio Alegre,187ec2
 stcp,200,Bolhão,Cast. Queijo,187ec2
 stcp,201,Aliados,Viso,187ec2
+stcp,202,Aliados,Passeio Alegre (via Av. Bessa),187ec2
 stcp,203,Marquês,Cast. Queijo,187ec2
 stcp,204,Hospital S. João,Foz,187ec2
 stcp,205,Campanhã,Cast. Queijo,187ec2
 stcp,206,Campanhã,Viso,187ec2
 stcp,207,Campanhã,Mercado Da Foz,187ec2
+stcp,208,Aliados,Aldoar,187ec2
+stcp,209,Pasteleira,Prelada,187ec2
 stcp,300,Circular Hospital S. João,Aliados,187ec2
 stcp,301,Circular Hospital S. João,Sá Da Bandeira,187ec2
 stcp,302,Circular Aliados,Damião De Góis,187ec2
@@ -14,11 +19,8 @@ stcp,305,Cordoaria,Hospital S. João,187ec2
 stcp,400,Aliados,Parque Nascente,187ec2
 stcp,401,Bolhão,S. Roque,187ec2
 stcp,402,Boavista,S. Roque,187ec2
-stcp,ZF,Valadares (Estação),Francelos,ff7900
-stcp,907,Boavista,Vila D'Este,ff7900
+stcp,403,Boavista (Casa Música),Campanhã,187ec2
 stcp,ZC,Estádio Do Dragão,Areias,187ec2
-stcp,707,Hospital S. João,Ermesinde(Est)via Arregadas,ff0000
-stcp,208,Aliados,Aldoar,187ec2
 stcp,500,Praça Liberdade,Matosinhos (Mercado),fcd116
 stcp,501,Aliados,Matosinhos (Praia),fcd116
 stcp,502,Bolhão,Matosinhos (Mercado),fcd116
@@ -39,6 +41,8 @@ stcp,702,Bolhão,Travagem,ff0000
 stcp,703,Cordoaria,Sonhos,ff0000
 stcp,704,Boavista,Codiceira,ff0000
 stcp,705,Hospital S. João,Valongo (Continente),ff0000
+stcp,706,Hospital S. João,Ermesinde(Est)via Mte Penedo,ff0000
+stcp,707,Hospital S. João,Ermesinde(Est)via Arregadas,ff0000
 stcp,800,Bolhão,Gondomar,a347ff
 stcp,801,Cordoaria,S.Pedro Da Cova,a347ff
 stcp,803,Boavista,Rio Tinto(Esc. Sec.),a347ff
@@ -52,10 +56,8 @@ stcp,903,Boavista,Vilar Do Paraíso,ff7900
 stcp,904,Bolhão,Coimbrões,ff7900
 stcp,905,Bolhão,Monte Da Virgem,ff7900
 stcp,906,Trindade,Madalena,ff7900
-stcp,403, Boavista (Casa Música),Campanhã,187ec2
-stcp,209,Pasteleira,Prelada,187ec2
-stcp,1,Infante,Passeio Alegre,187ec2
-stcp,18,Clérigos,Passeio Alegre,187ec2
+stcp,907,Boavista,Vila D'Este,ff7900
+stcp,ZF,Valadares (Estação),Francelos,ff7900
 stcp,10M,Aliados,Vila D'Este,0
 stcp,1M,Aliados,Matosinhos (Praia),0
 stcp,3M,Aliados,Aeroporto,0
@@ -67,5 +69,3 @@ stcp,9M,Rotunda Aep,Gondomar (via Hospital S. João ),0
 stcp,11M,Hospital S. João,Coimbrões,0
 stcp,12M,Aliados,Sto.Ovídio,0
 stcp,13M,Aliados,Matosinhos (Mercado),0
-stcp,202,Aliados,Passeio Alegre (via Av. Bessa),187ec2
-stcp,706,Hospital S. João,Ermesinde(Est)via Mte Penedo,ff0000

@@ -11,5 +11,4 @@ class Stop {
   final String zone;
   final double lat;
   final double lon;
-  
 }

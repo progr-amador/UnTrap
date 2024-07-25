@@ -41,7 +41,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _initializeMap() async {
-    await fetchStops();
     await generateMarkers(context);
     setState(() {});
   }
@@ -138,7 +137,6 @@ class _MapScreenState extends State<MapScreen> {
                         },
                         child: const Icon(
                           Icons.my_location,
-                          color: Colors.white,
                         ),
                       ),
                     ),

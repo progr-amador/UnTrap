@@ -10,7 +10,7 @@ import 'package:untrap/model/stop.dart';
 
 class BusScheduleModal extends StatefulWidget {
   final Stop stop;
-  const BusScheduleModal({Key? key, required this.stop}) : super(key: key);
+  const BusScheduleModal({super.key, required this.stop});
 
   @override
   __BusScheduleModalState createState() => __BusScheduleModalState();
@@ -58,7 +58,7 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                       children: [
                         Text(
                           widget.stop.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
@@ -70,8 +70,8 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.stop.code + " | " + widget.stop.zone,
-                          style: TextStyle(
+                          "${widget.stop.code} | ${widget.stop.zone}",
+                          style: const TextStyle(
                             fontSize: 20,
                             fontStyle: FontStyle.italic,
                           ),
@@ -114,14 +114,14 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                         ),
                         title: Text(
                           bus["bus_number"],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         trailing: Text(
                           toAppear,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15),
                         ),
                       );

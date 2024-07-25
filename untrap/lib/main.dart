@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:untrap/auxiliaries/fetch_lines.dart';
+import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/components/map.dart';
 import 'package:untrap/components/navigation_bar.dart';
-import 'pages/lines.dart';
+import 'package:untrap/pages/lines.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  fetchLines();
+  fetchStops();
   runApp(const MyApp());
 }
 
@@ -19,7 +23,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void _changePage(int index){
+  void _changePage(int index) {
     setState(() {
       currentPage = index;
     });
@@ -52,7 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      bottomNavigationBar: BottomBar(changePage: _changePage,),
+      bottomNavigationBar: BottomBar(
+        changePage: _changePage,
+      ),
       body: [
         const MapScreen(),
         const Lines(),
