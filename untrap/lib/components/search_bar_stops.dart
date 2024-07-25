@@ -8,7 +8,6 @@ import 'package:untrap/model/stop.dart';
 import 'package:untrap/components/map.dart';
 import 'package:untrap/components/select_time.dart';
 
-List<Stop> stopCodes = [];
 
 class SearchBarStops extends StatefulWidget {
   const SearchBarStops({super.key, required this.refresh});
@@ -25,7 +24,6 @@ class SearchBarStopsState extends State<SearchBarStops> {
   @override
   void initState() {
     super.initState();
-    fetchStopCodes(context);
     timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       if (selectedDate != DateTime.now() && !changed) {
         setState(() {
@@ -37,7 +35,6 @@ class SearchBarStopsState extends State<SearchBarStops> {
 
   @override
   void dispose() {
-    stopCodes.clear();
     timer.cancel();
     super.dispose();
   }
@@ -45,7 +42,7 @@ class SearchBarStopsState extends State<SearchBarStops> {
   List<Stop> filteredSuggestions = [];
 
   List<Stop> getSuggestionsBasedOnQuery(String query) {
-    return stopCodes
+    return stops
         .where((item) =>
             item.code.toLowerCase().contains(query) ||
             item.name.toLowerCase().contains(query))
@@ -88,7 +85,7 @@ class SearchBarStopsState extends State<SearchBarStops> {
                     ),
                     PopupMenuItem(
                       onTap: () => resetTime(),
-                      child: Text(
+                      child: const Text(
                         'Reset Time',
                       ),
                     ),

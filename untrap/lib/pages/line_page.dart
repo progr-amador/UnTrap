@@ -2,25 +2,22 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:untrap/components/select_time.dart';
-import 'package:untrap/auxiliaries/fetch_stops.dart';
+import 'package:untrap/model/line.dart';
 import 'stop_page.dart';
 
 // ignore: must_be_immutable
 class LinePage extends StatefulWidget {
-  final String line;
-  String orig;
-  String dest;
-  int direction = 0;
+  final Line line;
+  bool direction = true;
 
-  LinePage({Key? key, required this.line, required this.orig, required this.dest});
+  LinePage({Key? key, required this.line});
 
   @override
   _LinePageState createState() => _LinePageState();
 }
 
 class _LinePageState extends State<LinePage> {
-
-  Future<List<String>> data(String line, int direction) async {
+  Future<List<String>> data(String line, bool direction) async {
     String jsonString = await rootBundle.loadString('files/stop_times.json');
     List<dynamic> data = json.decode(jsonString);
 
@@ -44,33 +41,18 @@ class _LinePageState extends State<LinePage> {
     return stopsList;
   }
 
-  String stopName(String code) {
-    if (stops.containsKey(code)) {
-      return stops[code]!;
-    }
-    return "NULL";
-  }
-
   void _swapOrigDest() {
     setState(() {
-      String temp = widget.orig;
-      widget.orig = widget.dest;
-      widget.dest = temp;
-      if (widget.direction == 1) {
-        widget.direction = 0;
-      } else {
-        widget.direction = 1;
-      }
+      widget.direction = !widget.direction;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.line,
+          widget.line.name,
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -83,17 +65,20 @@ class _LinePageState extends State<LinePage> {
           children: [
             ListTile(
               leading: IconButton(
-                icon: Icon(Icons.multiple_stop, size: 40,),
+                icon: Icon(
+                  Icons.multiple_stop,
+                  size: 40,
+                ),
                 onPressed: _swapOrigDest,
               ),
               title: Text(
-                widget.orig,
+                widget.direction ? widget.line.from : widget.line.to,
                 style: TextStyle(
                   fontSize: 13,
                 ),
               ),
               subtitle: Text(
-                widget.dest,
+                widget.direction ? widget.line.to : widget.line.from,
                 style: TextStyle(
                   fontSize: 13,
                 ),
@@ -101,7 +86,7 @@ class _LinePageState extends State<LinePage> {
             ),
             Expanded(
               child: FutureBuilder<List<String>>(
-                future: data(widget.line, widget.direction),
+                future: data(widget.line.name, widget.direction),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -115,7 +100,7 @@ class _LinePageState extends State<LinePage> {
                         String stop = stopsList[index];
                         return ListTile(
                           title: Text(
-                            stopName(stop),
+                            stop,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

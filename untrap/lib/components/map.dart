@@ -41,7 +41,8 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _initializeMap() async {
-    await fetchStops(context);
+    await fetchStops();
+    await generateMarkers(context);
     setState(() {});
   }
 
@@ -91,7 +92,8 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate: Theme.of(context).brightness == Brightness.light
+                    urlTemplate: Theme.of(context).brightness ==
+                            Brightness.light
                         ? 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                         : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
                     tileBounds: LatLngBounds(

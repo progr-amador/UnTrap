@@ -60,9 +60,7 @@ class Line extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => LinePage(
-                  line: name,
-                  orig: from,
-                  dest: to,
+                  line: this
                 ),
               ),
             );

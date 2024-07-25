@@ -5,11 +5,12 @@ import 'package:untrap/auxiliaries/fetch_times.dart';
 import 'package:untrap/components/select_time.dart';
 import 'dart:async';
 
+import 'package:untrap/model/stop.dart';
+
 
 class BusScheduleModal extends StatefulWidget {
-  final String stopID;
-  final dynamic value;
-  const BusScheduleModal({Key? key, required this.stopID, required this.value}) : super(key: key);
+  final Stop stop;
+  const BusScheduleModal({Key? key, required this.stop}) : super(key: key);
 
   @override
   __BusScheduleModalState createState() => __BusScheduleModalState();
@@ -22,12 +23,12 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
   @override
   void initState() {
     super.initState();
-    busSchedule = getBusSchedule(widget.stopID);
+    busSchedule = getBusSchedule(widget.stop.code);
     if (!changed) selectedDate = DateTime.now();
     timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       setState(() {
         if (!changed) selectedDate = DateTime.now();
-        busSchedule = getBusSchedule(widget.stopID);
+        busSchedule = getBusSchedule(widget.stop.code);
       });
     });
   }
@@ -56,7 +57,7 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.value["stop_name"],
+                          widget.stop.name,
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -69,7 +70,7 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.value["stop_code"] + " | " + widget.value["zone_id"],
+                          widget.stop.code + " | " + widget.stop.zone,
                           style: TextStyle(
                             fontSize: 20,
                             fontStyle: FontStyle.italic,

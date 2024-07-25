@@ -9,7 +9,6 @@ Future<void> fetchLines() async {
   final data = const CsvToListConverter().convert(input);
 
   for (var row in data) {
-    //print(row[4].toString().toLowerCase());
     lines.add(
       Line(
           operator: row[0].toString(),
