@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:untrap/auxiliaries/fetch_times.dart';
 import 'package:untrap/components/select_time.dart';
 import 'dart:async';
-
 import 'package:untrap/model/stop.dart';
-
+import 'package:untrap/model/stop_time.dart';
 
 class BusScheduleModal extends StatefulWidget {
   final Stop stop;
@@ -17,32 +14,31 @@ class BusScheduleModal extends StatefulWidget {
 }
 
 class __BusScheduleModalState extends State<BusScheduleModal> {
-  late Future<List<Map<String, dynamic>>> busSchedule;
+  late Future<List<StopTime>> upcoming;
   late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    busSchedule = getBusSchedule(widget.stop.code);
+    upcoming = fetchUpcoming(widget.stop.code);
     if (!changed) selectedDate = DateTime.now();
     timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       setState(() {
         if (!changed) selectedDate = DateTime.now();
-        busSchedule = getBusSchedule(widget.stop.code);
+        upcoming = fetchUpcoming(widget.stop.code);
       });
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: busSchedule,
+      future: fetchUpcoming(widget.stop.code),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.hasData == false) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          List<dynamic> buses = snapshot.data as List<dynamic>;
+          var buses = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -82,6 +78,30 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                   ],
                 ),
               ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: buses.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return buses[index];
+                  },
+                ),
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  DateTime _parseTimeString(String timeString) {
+    List<String> parts = timeString.split(':');
+    return DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
+        int.parse(parts[0]), int.parse(parts[1]));
+  }
+}
+
+
+/*
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(5),
@@ -142,6 +162,4 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
     List<String> parts = timeString.split(':');
     return DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
         int.parse(parts[0]), int.parse(parts[1]));
-  }
-  
-}
+  }*/

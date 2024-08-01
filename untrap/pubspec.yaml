@@ -45,6 +45,8 @@ dependencies:
   flutter_map_location_marker: ^8.0.8
   csv: ^6.0.0
   hexcolor: ^3.0.1
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:

@@ -72,13 +72,13 @@ class _LinePageState extends State<LinePage> {
                 onPressed: _swapOrigDest,
               ),
               title: Text(
-                widget.direction ? widget.line.from : widget.line.to,
+                widget.direction ? widget.line.orig : widget.line.dest,
                 style: const TextStyle(
                   fontSize: 13,
                 ),
               ),
               subtitle: Text(
-                widget.direction ? widget.line.to : widget.line.from,
+                widget.direction ? widget.line.dest : widget.line.orig,
                 style: const TextStyle(
                   fontSize: 13,
                 ),

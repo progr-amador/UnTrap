@@ -19,8 +19,8 @@ class _LinesState extends State<Lines> {
     filteredLines = lines
         .where((item) =>
             item.name.toLowerCase().contains(lowerCaseQuery) ||
-            item.from.toLowerCase().contains(lowerCaseQuery) ||
-            item.to.toLowerCase().contains(lowerCaseQuery))
+            item.orig.toLowerCase().contains(lowerCaseQuery) ||
+            item.dest.toLowerCase().contains(lowerCaseQuery))
         .toList();
     setState(() {});
   }

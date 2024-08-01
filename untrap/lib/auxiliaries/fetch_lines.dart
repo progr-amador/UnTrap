@@ -1,21 +1,19 @@
-import 'package:csv/csv.dart';
-import 'package:flutter/services.dart';
+import 'package:untrap/auxiliaries/database.dart';
 import 'package:untrap/model/line.dart';
 
 List<Line> lines = [];
 
 Future<void> fetchLines() async {
-  final input = await rootBundle.loadString('files/lines.csv');
-  final data = const CsvToListConverter().convert(input);
+  List<Map> query = await database.rawQuery('SELECT * FROM LINE');
 
-  for (var row in data) {
+  for (Map line in query) {
     lines.add(
       Line(
-          operator: row[0].toString(),
-          name: row[1].toString(),
-          from: row[2].toString(),
-          to: row[3].toString(),
-          color: row[4].toString().toLowerCase()),
+          operator: line["lineOperator"],
+          name: line["lineName"],
+          orig: line["lineOrig"],
+          dest: line["lineDest"],
+          color: line["lineColor"]),
     );
   }
 }

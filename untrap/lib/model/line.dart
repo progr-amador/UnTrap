@@ -9,14 +9,14 @@ class Line extends StatelessWidget {
       {super.key,
       required this.operator,
       required this.name,
-      required this.from,
-      required this.to,
+      required this.orig,
+      required this.dest,
       required this.color});
 
   final String operator;
   final String name;
-  final String from;
-  final String to;
+  final String orig;
+  final String dest;
   final String color;
 
   @override
@@ -42,13 +42,13 @@ class Line extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                from,
+                orig,
                 style: const TextStyle(
                   fontSize: 12,
                 ),
               ),
               Text(
-                to,
+                dest,
                 style: const TextStyle(
                   fontSize: 12,
                 ),

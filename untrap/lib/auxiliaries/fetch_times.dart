@@ -1,43 +1,43 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
+import 'package:untrap/auxiliaries/database.dart';
 import 'package:untrap/components/select_time.dart';
+import 'package:untrap/model/stop_time.dart';
 
-Future<List<Map<String, dynamic>>> getBusSchedule(String stopId) async {
-  String jsonString = await rootBundle.loadString('files/stop_times.json');
-  List<dynamic> data = json.decode(jsonString);
-
-  DateTime generousDate = selectedDate.subtract(const Duration(minutes: 10));
-
-  List<Map<String, dynamic>> schedule = data
-      .where((bus) =>
-          bus["s"] == stopId &&
-          _isAfterCurrentTime(bus["t"], bus["d"], generousDate))
-      .map((bus) {
-    String busNumber = bus["t"].split("_")[0]; // Extract bus number
-    return {"bus_number": busNumber, "departure": bus["d"], "trip": bus["t"]};
-  }).toList();
-
-  schedule.sort((a, b) => a["departure"].compareTo(b["departure"]));
-
-  return schedule.take(10).toList();
-}
-
-bool _isAfterCurrentTime(
-  String tripId, String arrivalTimeString, DateTime selectedDate) {
+Future<List<StopTime>> fetchUpcoming(String stopID) async {
+  List<StopTime> stopTimes = [];
+  DateTime generousDate = selectedDate.subtract(const Duration(minutes: 5));
   String day;
-  if (selectedDate.weekday == 6) {
-    day = 'S';
-  } else if (selectedDate.weekday == 7) {
-    day = 'D';
-  } else {
-    day = 'U';
+  String time =
+      "${generousDate.hour}:${generousDate.minute}:${generousDate.second}";
+
+  switch (generousDate.weekday) {
+    case DateTime.saturday:
+      day = 'S';
+    case DateTime.sunday:
+      day = 'D';
+    default:
+      day = 'U';
   }
 
-  if (day != tripId.split("_")[2]) return false;
-  List<String> parts = arrivalTimeString.split(':');
-  DateTime arrivalTime = DateTime(selectedDate.year, selectedDate.month,
-      selectedDate.day, int.parse(parts[0]), int.parse(parts[1]));
+  String query =
+      "SELECT stopID, lineName, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) WHERE stopID = '$stopID' AND time > '$time' AND weekday = '$day' ORDER BY time ASC LIMIT 10;";
 
-  return arrivalTime.isAfter(selectedDate);
+  List<Map> result = await database.rawQuery(query);
+
+  print(result.length);
+
+  for (Map entry in result) {
+    stopTimes.add(
+      StopTime(
+          stopID: entry["stopID"],
+          lineName: entry["lineName"],
+          direction: entry["direction"],
+          weekday: entry["weekday"],
+          shift: entry["shift"],
+          time: entry["time"],
+          operator: entry["lineOperator"],
+          color: entry["lineColor"]),
+    );
+  }
+
+  return stopTimes;
 }
-

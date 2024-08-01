@@ -1,8 +1,7 @@
-import 'package:csv/csv.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:untrap/auxiliaries/database.dart';
 import 'package:untrap/model/stop.dart';
 import 'package:untrap/components/bottom_sheet.dart';
 import 'package:untrap/components/map.dart';
@@ -10,12 +9,16 @@ import 'package:untrap/components/map.dart';
 List<Stop> stops = [];
 
 Future<void> fetchStops() async {
-  final input = await rootBundle.loadString('files/stops.csv');
-  final data = const CsvToListConverter().convert(input);
+  List<Map> query = await database.rawQuery('SELECT * FROM STOP');
 
-  for (var row in data) {
+  for (Map stop in query) {
     stops.add(
-      Stop(code: row[0], name: row[1], zone: row[2], lat: row[3], lon: row[4]),
+      Stop(
+        code: stop["stopID"], 
+        name: stop["stopName"], 
+        zone: stop["stopZone"], 
+        lat: stop["stopLat"], 
+        lon: stop["stopLon"]),
     );
   }
 }
