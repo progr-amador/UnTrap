@@ -7,8 +7,8 @@ class Stop extends StatelessWidget {
       required this.code,
       required this.name,
       required this.zone,
-      required this.lat,
-      required this.lon});
+      this.lat = 0.0,
+      this.lon = 0.0});
 
   final String code;
   final String name;

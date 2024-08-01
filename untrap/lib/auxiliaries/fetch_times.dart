@@ -24,6 +24,8 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
   List<Map> result = await database.rawQuery(query);
 
   for (Map entry in result) {
+    String hour = entry["time"].split(':')[0];
+    String minute = entry["time"].split(':')[1];
     stopTimes.add(
       StopTime(
           stopID: entry["stopID"],
@@ -31,7 +33,7 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
           direction: entry["direction"],
           weekday: entry["weekday"],
           shift: entry["shift"],
-          time: entry["time"],
+          time: "$hour:$minute",
           operator: entry["lineOperator"],
           color: entry["lineColor"]),
     );

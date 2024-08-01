@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:untrap/auxiliaries/database.dart';
-import 'package:untrap/components/map.dart';
 import 'package:untrap/model/stop.dart';
 import 'package:untrap/components/bottom_sheet.dart';
 
@@ -23,30 +22,27 @@ Future<void> fetchStops() async {
   }
 }
 
-Future<List<Stop>> fetchLineStops(
-    String weekday, String lineName, int shift) async {
+Future<List<Stop>> fetchLineStops(String weekday, String lineName, int shift) async {
   List<Stop> stopLines = [];
   List<Map> query = await database.rawQuery(
-      "SELECT stopName, stopID, stopZone, stopLat, stopLon FROM STOP JOIN STOP_TIME USING(stopID) WHERE weekday = '$weekday' AND lineName = '$lineName' AND shift = $shift ORDER BY time;");
+      "SELECT stopName, stopID, stopZone FROM STOP JOIN STOP_TIME USING(stopID) WHERE weekday = '$weekday' AND lineName = '$lineName' AND shift = $shift ORDER BY time;");
 
-  print(query.length);
   for (Map stop in query) {
     stopLines.add(
       Stop(
-          code: stop["stopID"],
-          name: stop["stopName"],
-          zone: stop["stopZone"],
-          lat: stop["stopLat"],
-          lon: stop["stopLon"]),
+        code: stop["stopID"],
+        name: stop["stopName"],
+        zone: stop["stopZone"],
+      ),
     );
   }
-
-  print(stopLines.length);
 
   return stopLines;
 }
 
-Future<void> generateMarkers(BuildContext context) async {
+Future<List<Marker>> generateMarkers(BuildContext context) async {
+  List<Marker> markers = [];
+
   for (Stop stop in stops) {
     markers.add(
       Marker(
@@ -59,7 +55,6 @@ Future<void> generateMarkers(BuildContext context) async {
           onPressed: () {
             showModalBottomSheet(
               backgroundColor: Theme.of(context).dialogBackgroundColor,
-              
               context: context,
               builder: (BuildContext context) {
                 return BusScheduleModal(
@@ -72,4 +67,5 @@ Future<void> generateMarkers(BuildContext context) async {
       ),
     );
   }
+  return markers;
 }

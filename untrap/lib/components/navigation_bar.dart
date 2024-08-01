@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-int currentPage = 1;
+int currentPage = 0;
 
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key, required this.changePage});

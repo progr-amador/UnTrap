@@ -8,7 +8,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/components/search_bar_stops.dart';
 
-List<Marker> markers = [];
 LatLng mapPosition = const LatLng(41.1579, -8.6291);
 double mapZoom = 13.0;
 double mapRotation = 0;
@@ -35,7 +34,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    markers.clear();
     alignPositionStreamController.close();
     super.dispose();
   }
@@ -59,92 +57,101 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return markers.isEmpty
-        ? const Center(child: CircularProgressIndicator())
-        : Stack(
-            children: [
-              FlutterMap(
-                mapController: mapController,
-                options: MapOptions(
-                  initialCenter: mapPosition, // Porto coordinates
-                  initialZoom: mapZoom,
-                  initialRotation: mapRotation,
-                  maxZoom: 20.0,
-                  minZoom: 11,
-                  keepAlive: true,
-                  cameraConstraint: CameraConstraint.contain(
-                    bounds: LatLngBounds(
-                      const LatLng(41.013498, -8.767652), // southwest
-                      const LatLng(41.283688, -8.347762), // northeast
-                    ),
-                  ),
-                  onPositionChanged: (position, hasGesture) {
-                    mapZoom = mapController.camera.zoom;
-                    mapPosition = mapController.camera.center;
-                    mapRotation = mapController.camera.rotation;
-                    if (hasGesture) {
-                      setState(
-                        () => alignPositionOnUpdate = AlignOnUpdate.never,
-                      );
-                    }
-                  },
-                ),
-                children: [
-                  TileLayer(
-                    urlTemplate: Theme.of(context).brightness ==
-                            Brightness.light
-                        ? 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-                        : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-                    tileBounds: LatLngBounds(
-                      const LatLng(41.013498, -8.767652), // southwest
-                      const LatLng(41.283688, -8.347762), // northeast
-                    ),
-                  ),
-                  MarkerClusterLayerWidget(
-                    options: MarkerClusterLayerOptions(
-                      maxClusterRadius: 30,
-                      size: const Size(0, 0),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(30),
-                      maxZoom: 15,
-                      markers: markers,
-                      builder: (context, markers) {
-                        return const SizedBox();
-                      },
-                    ),
-                  ),
-                  CurrentLocationLayer(
-                    alignPositionStream: alignPositionStreamController.stream,
-                    alignPositionOnUpdate: alignPositionOnUpdate,
-                    style: const LocationMarkerStyle(
-                      marker: DefaultLocationMarker(),
-                      markerSize: Size(20, 20),
-                      markerDirection: MarkerDirection.heading,
-                      showAccuracyCircle: false,
-                      showHeadingSector: false,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          setState(
-                            () => alignPositionOnUpdate = AlignOnUpdate.always,
-                          );
-                          alignPositionStreamController.add(19);
-                        },
-                        child: const Icon(
-                          Icons.my_location,
-                        ),
+    return Stack(
+      children: [
+        FutureBuilder(
+            future: generateMarkers(context),
+            builder: (context, snapshot) {
+              if (snapshot.hasData == false) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                var markers = snapshot.data!;
+                return FlutterMap(
+                  mapController: mapController,
+                  options: MapOptions(
+                    initialCenter: mapPosition, // Porto coordinates
+                    initialZoom: mapZoom,
+                    initialRotation: mapRotation,
+                    maxZoom: 20.0,
+                    minZoom: 11,
+                    keepAlive: true,
+                    cameraConstraint: CameraConstraint.contain(
+                      bounds: LatLngBounds(
+                        const LatLng(41.013498, -8.767652), // southwest
+                        const LatLng(41.283688, -8.347762), // northeast
                       ),
                     ),
+                    onPositionChanged: (position, hasGesture) {
+                      mapZoom = mapController.camera.zoom;
+                      mapPosition = mapController.camera.center;
+                      mapRotation = mapController.camera.rotation;
+                      if (hasGesture) {
+                        setState(
+                          () => alignPositionOnUpdate = AlignOnUpdate.never,
+                        );
+                      }
+                    },
                   ),
-                ],
+                  children: [
+                    TileLayer(
+                      urlTemplate: Theme.of(context).brightness ==
+                              Brightness.light
+                          ? 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+                          : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+                      tileBounds: LatLngBounds(
+                        const LatLng(41.013498, -8.767652), // southwest
+                        const LatLng(41.283688, -8.347762), // northeast
+                      ),
+                    ),
+                    MarkerClusterLayerWidget(
+                      options: MarkerClusterLayerOptions(
+                        maxClusterRadius: 30,
+                        size: const Size(0, 0),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(30),
+                        maxZoom: 15,
+                        markers: markers,
+                        builder: (context, markers) {
+                          return const SizedBox();
+                        },
+                      ),
+                    ),
+                    CurrentLocationLayer(
+                      alignPositionStream: alignPositionStreamController.stream,
+                      alignPositionOnUpdate: alignPositionOnUpdate,
+                      style: const LocationMarkerStyle(
+                        marker: DefaultLocationMarker(),
+                        markerSize: Size(20, 20),
+                        markerDirection: MarkerDirection.heading,
+                        showAccuracyCircle: false,
+                        showHeadingSector: false,
+                      ),
+                    ),
+                  ],
+                );
+              }
+            }),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(
+                  () => alignPositionOnUpdate = AlignOnUpdate.always,
+                );
+                alignPositionStreamController.add(19);
+              },
+              child: const Icon(
+                Icons.my_location,
               ),
-              SearchBarStops(refresh: _refresh),
-            ],
-          );
+            ),
+          ),
+        ),
+        SearchBarStops(refresh: _refresh),
+      ],
+    );
   }
 }

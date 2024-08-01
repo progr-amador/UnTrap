@@ -44,27 +44,24 @@ class _StopPageState extends State<StopPage> {
           ),
         ),
       ),
-      body: Container(
-        margin: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
-        child: FutureBuilder(
-            future: fetchUpcoming(widget.stop.code),
-            builder: (context, snapshot) {
-              if (snapshot.hasData == false) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else {
-                var buses = snapshot.data!;
-                return ListView.builder(
-                  itemCount: buses.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return buses[index];
-                  },
-                );
-              }
+      body: FutureBuilder(
+          future: fetchUpcoming(widget.stop.code),
+          builder: (context, snapshot) {
+            if (snapshot.hasData == false) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              var buses = snapshot.data!;
+              return ListView.builder(
+                itemCount: buses.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return buses[index];
+                },
+              );
             }
-          ),
-      ),
+          }
+        ),
     );
   }
 }

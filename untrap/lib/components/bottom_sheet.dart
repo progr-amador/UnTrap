@@ -44,9 +44,8 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                   Text(
                     widget.stop.name,
                     style: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
                     ),
                   ),
                 ],
@@ -58,7 +57,6 @@ class __BusScheduleModalState extends State<BusScheduleModal> {
                     "${widget.stop.code} | ${widget.stop.zone}",
                     style: const TextStyle(
                       fontSize: 20,
-                      fontStyle: FontStyle.italic,
                     ),
                   ),
                   const SizedBox(width: 10),
