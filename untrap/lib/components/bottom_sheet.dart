@@ -3,7 +3,6 @@ import 'package:untrap/auxiliaries/fetch_times.dart';
 import 'package:untrap/components/select_time.dart';
 import 'dart:async';
 import 'package:untrap/model/stop.dart';
-import 'package:untrap/model/stop_time.dart';
 
 class BusScheduleModal extends StatefulWidget {
   final Stop stop;
@@ -14,91 +13,92 @@ class BusScheduleModal extends StatefulWidget {
 }
 
 class __BusScheduleModalState extends State<BusScheduleModal> {
-  late Future<List<StopTime>> upcoming;
   late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    upcoming = fetchUpcoming(widget.stop.code);
     if (!changed) selectedDate = DateTime.now();
     timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       setState(() {
         if (!changed) selectedDate = DateTime.now();
-        upcoming = fetchUpcoming(widget.stop.code);
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchUpcoming(widget.stop.code),
-      builder: (context, snapshot) {
-        if (snapshot.hasData == false) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          var buses = snapshot.data!;
-          return Column(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.stop.name,
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.stop.name,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${widget.stop.code} | ${widget.stop.zone}",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: ListView.builder(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${widget.stop.code} | ${widget.stop.zone}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: FutureBuilder(
+            future: fetchUpcoming(widget.stop.code),
+            builder: (context, snapshot) {
+              if (snapshot.hasData == false) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                var buses = snapshot.data!;
+                return ListView.builder(
                   itemCount: buses.length,
                   itemBuilder: (BuildContext context, int index) {
                     return buses[index];
                   },
-                ),
-              ),
-            ],
-          );
-        }
-      },
+                );
+              }
+            }
+          ),
+        ),
+      ],
     );
   }
+
+}
 
   DateTime _parseTimeString(String timeString) {
     List<String> parts = timeString.split(':');
     return DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
         int.parse(parts[0]), int.parse(parts[1]));
   }
-}
+
 
 
 /*

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:untrap/auxiliaries/fetch_lines.dart';
@@ -30,7 +28,7 @@ class StopTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5.0),
+      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       child: ListTile(
         dense: true,
         leading: SizedBox(

@@ -23,8 +23,6 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
 
   List<Map> result = await database.rawQuery(query);
 
-  print(result.length);
-
   for (Map entry in result) {
     stopTimes.add(
       StopTime(

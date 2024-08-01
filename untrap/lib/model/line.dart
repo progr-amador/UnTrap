@@ -22,7 +22,7 @@ class Line extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5.0),
+      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       child: ListTile(
           dense: true,
           leading: SizedBox(
