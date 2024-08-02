@@ -21,15 +21,31 @@ class Stop extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       child: ListTile(
-          dense: true,
-          leading: Text(
-            code, 
+        dense: true,
+          title: Text(
+            name, 
             style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )),
-          title: Text(name,),
-          trailing: Text(zone,),
+              fontSize: 14,
+              fontWeight: FontWeight.bold
+            )
+          ),
+          subtitle: Opacity(
+            opacity: 0.6,
+            child: Text(
+              code,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.italic,
+              )
+            ),
+          ),
+          trailing: Text(
+            zone,
+            style: const TextStyle(
+              fontSize: 15,
+            )
+          ),
           onTap: () {
             Navigator.push(
               context,

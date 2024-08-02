@@ -22,13 +22,14 @@ Future<void> fetchStops() async {
   }
 }
 
-Future<List<Stop>> fetchLineStops(String weekday, String lineName, int shift) async {
-  List<Stop> stopLines = [];
+Future<List<Stop>> fetchLineStops(
+    String weekday, String lineName, int shift) async {
+  List<Stop> lineStops = [];
   List<Map> query = await database.rawQuery(
-      "SELECT stopName, stopID, stopZone FROM STOP JOIN STOP_TIME USING(stopID) WHERE weekday = '$weekday' AND lineName = '$lineName' AND shift = $shift ORDER BY time;");
-
+      "SELECT stopName, stopID, stopZone FROM STOP JOIN STOP_TIME USING(stopID) WHERE weekday = '$weekday' AND lineName = '$lineName' AND shift = $shift ORDER BY time");
+      
   for (Map stop in query) {
-    stopLines.add(
+    lineStops.add(
       Stop(
         code: stop["stopID"],
         name: stop["stopName"],
@@ -37,7 +38,7 @@ Future<List<Stop>> fetchLineStops(String weekday, String lineName, int shift) as
     );
   }
 
-  return stopLines;
+  return lineStops;
 }
 
 Future<List<Marker>> generateMarkers(BuildContext context) async {

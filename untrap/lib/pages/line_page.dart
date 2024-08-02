@@ -59,13 +59,13 @@ class _LinePageState extends State<LinePage> {
             title: Text(
               direction == 1 ? widget.line.orig : widget.line.dest,
               style: const TextStyle(
-                fontSize: 13,
+                fontSize: 16,
               ),
             ),
             subtitle: Text(
               direction == 1 ? widget.line.dest : widget.line.orig,
               style: const TextStyle(
-                fontSize: 13,
+                fontSize: 16,
               ),
             ),
           ),

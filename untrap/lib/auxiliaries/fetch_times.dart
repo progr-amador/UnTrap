@@ -6,8 +6,9 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
   List<StopTime> stopTimes = [];
   DateTime generousDate = selectedDate.subtract(const Duration(minutes: 5));
   String day;
-  String time =
-      "${generousDate.hour}:${generousDate.minute}:${generousDate.second}";
+  String time = generousDate.hour < 10 ? 
+    "0${generousDate.hour}:${generousDate.minute}:${generousDate.second}":
+    "${generousDate.hour}:${generousDate.minute}:${generousDate.second}";
 
   switch (generousDate.weekday) {
     case DateTime.saturday:
@@ -19,8 +20,7 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
   }
 
   String query =
-      "SELECT stopID, lineName, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) WHERE stopID = '$stopID' AND time > '$time' AND weekday = '$day' ORDER BY time ASC LIMIT 10;";
-
+      "SELECT stopID, lineName, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) WHERE stopID = '$stopID' AND time > '$time' AND weekday = '$day' ORDER BY time ASC LIMIT 10";
   List<Map> result = await database.rawQuery(query);
 
   for (Map entry in result) {

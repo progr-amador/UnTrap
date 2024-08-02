@@ -40,16 +40,15 @@ class StopTime extends StatelessWidget {
         ),
         title: Text(lineName,
             style: const TextStyle(
-              fontSize: 30,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
             )),
-        trailing: 
-            Text(
-              time,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
+        trailing: Text(
+            time,
+            style: const TextStyle(
+              fontSize: 15,
             ),
+          ),
         
         onTap: () {
           Navigator.push(

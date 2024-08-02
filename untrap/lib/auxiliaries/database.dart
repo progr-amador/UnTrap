@@ -39,3 +39,14 @@ Future<void> initializeDatabase() async {
   fetchLines();
   fetchStops();
 }
+
+Future<void> eraseDatabase() async {
+  var databasesPath = await getDatabasesPath();
+  var path = join(databasesPath, "untrap.db");
+
+  print(path);
+
+  database = await openDatabase(path, readOnly: true);
+  await database.close();
+  databaseFactory.deleteDatabase(path);
+}
