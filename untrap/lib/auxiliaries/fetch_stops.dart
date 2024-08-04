@@ -27,7 +27,7 @@ Future<List<Stop>> fetchLineStops(
   List<Stop> lineStops = [];
   List<Map> query = await database.rawQuery(
       "SELECT stopName, stopID, stopZone FROM STOP JOIN STOP_TIME USING(stopID) WHERE weekday = '$weekday' AND lineName = '$lineName' AND shift = $shift ORDER BY time");
-      
+
   for (Map stop in query) {
     lineStops.add(
       Stop(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:untrap/auxiliaries/fetch_lines.dart';
 import 'package:untrap/model/line.dart';
 
@@ -32,12 +31,9 @@ class _LinesState extends State<Lines> {
         Padding(
           padding: const EdgeInsets.only(top: 40, left: 15, right: 15),
           child: SearchBar(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SvgPicture.asset(
-                'images/untrap.svg',
-                width: 30,
-              ),
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Icon(Icons.search)
             ),
             hintText: 'Search',
             onChanged: (value) => getSuggestionsBasedOnQuery(value),

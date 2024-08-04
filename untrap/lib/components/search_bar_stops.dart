@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/model/stop.dart';
@@ -19,6 +18,7 @@ class SearchBarStops extends StatefulWidget {
 
 class SearchBarStopsState extends State<SearchBarStops> {
   late Timer timer;
+  List<Stop> filteredSuggestions = [];
 
   @override
   void initState() {
@@ -37,8 +37,6 @@ class SearchBarStopsState extends State<SearchBarStops> {
     timer.cancel();
     super.dispose();
   }
-
-  List<Stop> filteredSuggestions = [];
 
   List<Stop> getSuggestionsBasedOnQuery(String query) {
     return stops
@@ -62,9 +60,9 @@ class SearchBarStopsState extends State<SearchBarStops> {
               onChanged: (_) {
                 controller.openView();
               },
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: SvgPicture.asset('images/untrap.svg', width: 30,),
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Icon(Icons.search),
               ),
               trailing: <Widget>[
                 PopupMenuButton(

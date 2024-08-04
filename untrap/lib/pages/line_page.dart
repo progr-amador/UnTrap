@@ -72,7 +72,7 @@ class _LinePageState extends State<LinePage> {
           Expanded(
             child: FutureBuilder(
               future:
-                  fetchLineStops(day, widget.line.name, direction + 2),
+                  fetchLineStops(day, widget.line.name, direction + 3),
               builder: (context, snapshot) {
                 if (snapshot.hasData == false) {
                   return const Center(child: CircularProgressIndicator());
