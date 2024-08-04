@@ -20,7 +20,7 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
   }
 
   String query =
-      "SELECT stopID, lineName, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) WHERE stopID = '$stopID' AND time > '$time' AND weekday = '$day' ORDER BY time ASC LIMIT 10";
+      "SELECT stopID, lineName, tripDest, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) JOIN TRIP USING(tripID) WHERE stopID = '$stopID' AND time > '$time' AND weekday = '$day' ORDER BY time ASC LIMIT 10";
   List<Map> result = await database.rawQuery(query);
 
   for (Map entry in result) {
@@ -30,6 +30,7 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
       StopTime(
           stopID: entry["stopID"],
           lineName: entry["lineName"],
+          tripDest: entry["tripDest"],
           direction: entry["direction"],
           weekday: entry["weekday"],
           shift: entry["shift"],

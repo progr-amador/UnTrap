@@ -9,6 +9,7 @@ class StopTime extends StatelessWidget {
       {super.key,
       required this.stopID,
       required this.lineName,
+      required this.tripDest,
       required this.direction,
       required this.weekday,
       required this.shift,
@@ -18,6 +19,7 @@ class StopTime extends StatelessWidget {
 
   final String stopID;
   final String lineName;
+  final String tripDest;
   final int direction;
   final String weekday;
   final int shift;
@@ -30,35 +32,44 @@ class StopTime extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       child: ListTile(
-        dense: true,
-        leading: SizedBox(
-          width: 35,
-          child: SvgPicture.asset(
-            'images/$operator.svg',
-            color: HexColor('#$color'),
+          dense: true,
+          leading: SizedBox(
+            width: 35,
+            child: SvgPicture.asset(
+              'images/$operator.svg',
+              color: HexColor('#$color'),
+            ),
           ),
-        ),
-        title: Text(lineName,
+          title: Text(
+            lineName, 
             style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            )),
-        trailing: Text(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            )
+          ),
+          subtitle: Opacity(
+            opacity: 0.6,
+            child: Text(
+              tripDest,
+              style: const TextStyle(
+                fontSize: 15,
+              )
+            ),
+          ),
+          trailing: Text(
             time,
             style: const TextStyle(
               fontSize: 15,
             ),
           ),
-        
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LinePage(line: lines.firstWhere((line) => line.name == lineName)),
-            )
-          );
-        }
-      ),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LinePage(
+                      line: lines.firstWhere((line) => line.name == lineName)),
+                ));
+          }),
     );
   }
 }
