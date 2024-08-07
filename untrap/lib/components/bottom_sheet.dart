@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:untrap/auxiliaries/fetch_times.dart';
 import 'package:untrap/model/stop.dart';
+import 'package:untrap/model/stop_time.dart';
 
-class BusScheduleModal extends StatelessWidget {
+class BusScheduleModal extends StatefulWidget {
   final Stop stop;
-  const BusScheduleModal({super.key, required this.stop});
+
+  BusScheduleModal({super.key, required this.stop});
+
+  @override
+  State<BusScheduleModal> createState() => _BusScheduleModalState();
+}
+
+class _BusScheduleModalState extends State<BusScheduleModal> {
+  late final Future<List<StopTime>> upcoming;
+
+  @override
+  void initState() {
+    super.initState();
+    upcoming = fetchUpcoming(widget.stop.code);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +37,7 @@ class BusScheduleModal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    stop.name,
+                    widget.stop.name,
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -34,7 +49,7 @@ class BusScheduleModal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "${stop.code} | ${stop.zone}",
+                    "${widget.stop.code} | ${widget.stop.zone}",
                     style: const TextStyle(
                       fontSize: 20,
                     ),
@@ -47,7 +62,7 @@ class BusScheduleModal extends StatelessWidget {
         ),
         Expanded(
           child: FutureBuilder(
-              future: fetchUpcoming(stop.code),
+              future: upcoming,
               builder: (context, snapshot) {
                 if (snapshot.hasData == false) {
                   return const Center(child: CircularProgressIndicator());

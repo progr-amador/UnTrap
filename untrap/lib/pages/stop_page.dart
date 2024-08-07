@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:untrap/auxiliaries/fetch_times.dart';
 import 'package:untrap/components/select_time.dart';
 import 'package:untrap/model/stop.dart';
+import 'package:untrap/model/stop_time.dart';
 
 class StopPage extends StatefulWidget {
   final Stop stop;
@@ -15,10 +16,12 @@ class StopPage extends StatefulWidget {
 
 class _StopPageState extends State<StopPage> {
   late Timer timer;
+  late Future<List<StopTime>> upcoming;
 
   @override
   void initState() {
     super.initState();
+    upcoming = fetchUpcoming(widget.stop.code);
     timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       if (!changed) selectedDate = DateTime.now();
       setState(() {});
@@ -36,16 +39,15 @@ class _StopPageState extends State<StopPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.stop.code,
+          widget.stop.name,
           style: const TextStyle(
-            fontSize: 30,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
           ),
         ),
       ),
       body: FutureBuilder(
-          future: fetchUpcoming(widget.stop.code),
+          future: upcoming,
           builder: (context, snapshot) {
             if (snapshot.hasData == false) {
               return const Center(child: CircularProgressIndicator());
@@ -60,8 +62,7 @@ class _StopPageState extends State<StopPage> {
                 },
               );
             }
-          }
-        ),
+          }),
     );
   }
 }

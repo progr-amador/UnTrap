@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:untrap/auxiliaries/fetch_buses.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/components/search_bar_stops.dart';
 
@@ -25,22 +26,24 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  late Future<List<Marker>> stopMarkers;
+  late Future<List<Marker>> busMarkers;
+  late Future<List<Marker>> allMarkers;
+
   @override
   void initState() {
     super.initState();
-    _initializeMap();
+    stopMarkers = generateStopMarkers(context);
+    busMarkers = generateBusMarkers();
     _initializeLocator();
+    setState(() {
+    });
   }
 
   @override
   void dispose() {
     alignPositionStreamController.close();
     super.dispose();
-  }
-
-  Future<void> _initializeMap() async {
-    await generateMarkers(context);
-    setState(() {});
   }
 
   Future<void> _initializeLocator() async {
@@ -60,14 +63,15 @@ class _MapScreenState extends State<MapScreen> {
     return Stack(
       children: [
         FutureBuilder(
-            future: generateMarkers(context),
+            future: Future.wait([stopMarkers, busMarkers]),
             builder: (context, snapshot) {
               if (snapshot.hasData == false) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                var markers = snapshot.data!;
+                var markers = snapshot.data![0];
+                markers.addAll(snapshot.data![1]);
                 return FlutterMap(
                   mapController: mapController,
                   options: MapOptions(

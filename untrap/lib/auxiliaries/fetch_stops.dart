@@ -41,7 +41,8 @@ Future<List<Stop>> fetchLineStops(
   return lineStops;
 }
 
-Future<List<Marker>> generateMarkers(BuildContext context) async {
+Future<List<Marker>> generateStopMarkers(BuildContext context) async {
+  await fetchStops();
   List<Marker> markers = [];
 
   for (Stop stop in stops) {
@@ -52,7 +53,9 @@ Future<List<Marker>> generateMarkers(BuildContext context) async {
         height: 30.0,
         rotate: true,
         child: IconButton(
-          icon: (stop.code[0] == "5" && stop.code.length == 4) ? const Icon(Icons.directions_subway) : const Icon(Icons.directions_bus),
+          icon: (stop.code[0] == "5" && stop.code.length == 4)
+              ? const Icon(Icons.directions_subway)
+              : const Icon(Icons.directions_bus),
           onPressed: () {
             showModalBottomSheet(
               backgroundColor: Theme.of(context).dialogBackgroundColor,
