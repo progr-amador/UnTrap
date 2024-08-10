@@ -6,7 +6,6 @@ import 'package:untrap/model/stop.dart';
 import 'package:untrap/components/map.dart';
 import 'package:untrap/components/select_time.dart';
 
-
 class SearchBarStops extends StatefulWidget {
   const SearchBarStops({super.key, required this.refresh});
 
@@ -18,11 +17,13 @@ class SearchBarStops extends StatefulWidget {
 
 class SearchBarStopsState extends State<SearchBarStops> {
   late Timer timer;
+  List<Stop> stops = [];
   List<Stop> filteredSuggestions = [];
 
   @override
   void initState() {
     super.initState();
+    _getStops();
     timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
       if (selectedDate != DateTime.now() && !changed) {
         setState(() {
@@ -30,6 +31,10 @@ class SearchBarStopsState extends State<SearchBarStops> {
         });
       }
     });
+  }
+
+  Future<void> _getStops() async {
+    stops = await fetchStops();
   }
 
   @override
@@ -50,68 +55,66 @@ class SearchBarStopsState extends State<SearchBarStops> {
   Widget build(BuildContext context) {
     return SearchAnchor(
         builder: (BuildContext context, SearchController controller) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 40, left: 15, right: 15),
-            child: SearchBar(
-              controller: controller,
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Icon(Icons.search),
-              ),
-              trailing: <Widget>[
-                PopupMenuButton(
-                  icon: const Icon(Icons.access_time),
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                    PopupMenuItem(
-                      onTap: () => selectDate(context),
-                      child: Text(
-                        "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
-                      ),
-                    ),
-                    PopupMenuItem(
-                      onTap: () => selectTime(context),
-                      child: Text(
-                        '${selectedDate.hour}:${selectedDate.minute.toString().padLeft(2, '0')}',
-                      ),
-                    ),
-                    PopupMenuItem(
-                      onTap: () => resetTime(),
-                      child: const Text(
-                        'Reset Time',
-                      ),
-                    ),
-                  ],
+      return Padding(
+        padding: const EdgeInsets.only(top: 40, left: 15, right: 15),
+        child: SearchBar(
+          controller: controller,
+          onTap: () {
+            controller.openView();
+          },
+          onChanged: (_) {
+            controller.openView();
+          },
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.search),
+          ),
+          trailing: <Widget>[
+            PopupMenuButton(
+              icon: const Icon(Icons.access_time),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                PopupMenuItem(
+                  onTap: () => selectDate(context),
+                  child: Text(
+                    "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
+                  ),
+                ),
+                PopupMenuItem(
+                  onTap: () => selectTime(context),
+                  child: Text(
+                    '${selectedDate.hour}:${selectedDate.minute.toString().padLeft(2, '0')}',
+                  ),
+                ),
+                PopupMenuItem(
+                  onTap: () => resetTime(),
+                  child: const Text(
+                    'Reset Time',
+                  ),
                 ),
               ],
-              hintText: 'Search',
             ),
-          );
-        },
-        suggestionsBuilder:
-            (BuildContext context, SearchController controller) {
-          String query = controller.text.toLowerCase();
-          filteredSuggestions = getSuggestionsBasedOnQuery(query);
+          ],
+          hintText: 'Search',
+        ),
+      );
+    }, suggestionsBuilder: (BuildContext context, SearchController controller) {
+      String query = controller.text.toLowerCase();
+      filteredSuggestions = getSuggestionsBasedOnQuery(query);
 
-          return List.generate(filteredSuggestions.length, (int index) {
-            final Stop item = filteredSuggestions[index];
-            return ListTile(
-              title: Text(
-                "${item.code} - ${item.name}",
-              ),
-              onTap: () {
-                mapController.move(LatLng(item.lat, item.lon), 19.0);
-                widget.refresh();
-                Navigator.pop(context);
-                FocusScope.of(context).unfocus();
-              },
-            );
-          });
-        });
+      return List.generate(filteredSuggestions.length, (int index) {
+        final Stop item = filteredSuggestions[index];
+        return ListTile(
+          title: Text(
+            "${item.code} - ${item.name}",
+          ),
+          onTap: () {
+            mapController.move(LatLng(item.lat, item.lon), 19.0);
+            widget.refresh();
+            Navigator.pop(context);
+            FocusScope.of(context).unfocus();
+          },
+        );
+      });
+    });
   }
 }

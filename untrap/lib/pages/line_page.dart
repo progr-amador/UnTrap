@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/components/select_time.dart';
 import 'package:untrap/model/line.dart';
-import 'package:untrap/model/stop.dart';
 
 class LinePage extends StatefulWidget {
   final Line line;
@@ -15,7 +14,6 @@ class LinePage extends StatefulWidget {
 class _LinePageState extends State<LinePage> {
   String day = 'S';
   int direction = 1;
-  late Future<List<Stop>> lineStops;
 
   @override
   void initState() {
@@ -28,7 +26,6 @@ class _LinePageState extends State<LinePage> {
       default:
         day = 'U';
     }
-    lineStops = fetchLineStops(day, widget.line.name, direction + 3);
   }
 
   void _swapOrigDest() {
@@ -74,7 +71,7 @@ class _LinePageState extends State<LinePage> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: lineStops,
+              future: fetchLineStops(day, widget.line.name, direction + 3),
               builder: (context, snapshot) {
                 if (snapshot.hasData == false) {
                   return const Center(child: CircularProgressIndicator());

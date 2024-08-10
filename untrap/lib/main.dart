@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:untrap/auxiliaries/database.dart';
+import 'package:untrap/auxiliaries/fetch_lines.dart';
 import 'package:untrap/components/map.dart';
 import 'package:untrap/components/navigation_bar.dart';
 import 'package:untrap/pages/lines.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initializeDatabase();
+  await initializeDatabase();
+  await fetchLines();
   runApp(const MyApp());
 }
 

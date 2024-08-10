@@ -28,7 +28,6 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late Future<List<Marker>> stopMarkers;
   late Future<List<Marker>> busMarkers;
-  late Future<List<Marker>> allMarkers;
 
   @override
   void initState() {
@@ -36,8 +35,7 @@ class _MapScreenState extends State<MapScreen> {
     stopMarkers = generateStopMarkers(context);
     busMarkers = generateBusMarkers();
     _initializeLocator();
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
@@ -70,8 +68,8 @@ class _MapScreenState extends State<MapScreen> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                var markers = snapshot.data![0];
-                markers.addAll(snapshot.data![1]);
+                var stops = snapshot.data![0];
+                var buses = snapshot.data![1];
                 return FlutterMap(
                   mapController: mapController,
                   options: MapOptions(
@@ -116,7 +114,20 @@ class _MapScreenState extends State<MapScreen> {
                         alignment: Alignment.center,
                         padding: const EdgeInsets.all(30),
                         maxZoom: 15,
-                        markers: markers,
+                        markers: stops,
+                        builder: (context, markers) {
+                          return const SizedBox();
+                        },
+                      ),
+                    ),
+                    MarkerClusterLayerWidget(
+                      options: MarkerClusterLayerOptions(
+                        maxClusterRadius: 30,
+                        size: const Size(0, 0),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(30),
+                        maxZoom: 15,
+                        markers: buses,
                         builder: (context, markers) {
                           return const SizedBox();
                         },

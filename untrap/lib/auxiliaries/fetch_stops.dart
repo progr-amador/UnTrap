@@ -5,10 +5,10 @@ import 'package:untrap/auxiliaries/database.dart';
 import 'package:untrap/model/stop.dart';
 import 'package:untrap/components/bottom_sheet.dart';
 
-List<Stop> stops = [];
 
-Future<void> fetchStops() async {
+Future<List<Stop>> fetchStops() async {
   List<Map> query = await database.rawQuery('SELECT * FROM STOP');
+  List<Stop> stops = [];
 
   for (Map stop in query) {
     stops.add(
@@ -20,6 +20,8 @@ Future<void> fetchStops() async {
           lon: stop["stopLon"]),
     );
   }
+
+  return stops;
 }
 
 Future<List<Stop>> fetchLineStops(
@@ -42,7 +44,7 @@ Future<List<Stop>> fetchLineStops(
 }
 
 Future<List<Marker>> generateStopMarkers(BuildContext context) async {
-  await fetchStops();
+  List<Stop> stops = await fetchStops();
   List<Marker> markers = [];
 
   for (Stop stop in stops) {

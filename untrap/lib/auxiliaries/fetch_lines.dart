@@ -17,3 +17,15 @@ Future<void> fetchLines() async {
     );
   }
 }
+
+Line getLine(String lineName) {
+  Map line =
+      database.rawQuery("SELECT * FROM LINE WHERE lineName = '$lineName'");
+
+  return Line(
+      operator: line["lineOperator"],
+      name: line["lineName"],
+      orig: line["lineOrig"],
+      dest: line["lineDest"],
+      color: line["lineColor"]);
+}

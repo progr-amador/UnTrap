@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:untrap/auxiliaries/fetch_lines.dart';
 
 var database;
 
@@ -34,8 +33,6 @@ Future<void> initializeDatabase() async {
   }
 
   database = await openDatabase(path, readOnly: true);
-
-  fetchLines();
 }
 
 Future<void> eraseDatabase() async {

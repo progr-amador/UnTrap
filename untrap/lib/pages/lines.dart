@@ -11,7 +11,13 @@ class Lines extends StatefulWidget {
 }
 
 class _LinesState extends State<Lines> {
-  List<Line> filteredLines = lines;
+  List<Line> filteredLines = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredLines = lines;
+  }
 
   void getSuggestionsBasedOnQuery(String query) {
     String lowerCaseQuery = query.toLowerCase();
@@ -32,9 +38,7 @@ class _LinesState extends State<Lines> {
           padding: const EdgeInsets.only(top: 40, left: 15, right: 15),
           child: SearchBar(
             leading: const Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Icon(Icons.search)
-            ),
+                padding: EdgeInsets.only(left: 8.0), child: Icon(Icons.search)),
             hintText: 'Search',
             onChanged: (value) => getSuggestionsBasedOnQuery(value),
           ),
@@ -46,7 +50,7 @@ class _LinesState extends State<Lines> {
               return filteredLines[index];
             },
           ),
-        ),
+        )
       ],
     );
   }
