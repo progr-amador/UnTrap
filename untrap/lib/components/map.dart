@@ -7,7 +7,6 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:untrap/auxiliaries/fetch_buses.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
-import 'package:untrap/components/search_bar_stops.dart';
 
 LatLng mapPosition = const LatLng(41.1579, -8.6291);
 double mapZoom = 13.0;
@@ -17,15 +16,15 @@ StreamController<double?> alignPositionStreamController =
     StreamController<double?>();
 AlignOnUpdate alignPositionOnUpdate = AlignOnUpdate.never;
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+class NavigationMap extends StatefulWidget {
+  const NavigationMap({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _MapScreenState createState() => _MapScreenState();
+  _NavigationMapState createState() => _NavigationMapState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _NavigationMapState extends State<NavigationMap> {
   late Future<List<Marker>> stopMarkers;
   late Future<List<Marker>> busMarkers;
 
@@ -148,24 +147,6 @@ class _MapScreenState extends State<MapScreen> {
                 );
               }
             }),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(
-                  () => alignPositionOnUpdate = AlignOnUpdate.always,
-                );
-                alignPositionStreamController.add(19);
-              },
-              child: const Icon(
-                Icons.my_location,
-              ),
-            ),
-          ),
-        ),
-        SearchBarStops(refresh: _refresh),
       ],
     );
   }

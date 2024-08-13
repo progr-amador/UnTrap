@@ -35,6 +35,15 @@ class BottomBar extends StatelessWidget {
           ),
           label: 'Lines',
         ),
+        NavigationDestination(
+          selectedIcon: Icon(
+            Icons.settings,
+          ),
+          icon: Icon(
+            Icons.settings_outlined,
+          ),
+          label: 'Settings',
+        ),
       ],
     );
   }

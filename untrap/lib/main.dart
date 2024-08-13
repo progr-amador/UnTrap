@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:untrap/auxiliaries/database.dart';
 import 'package:untrap/auxiliaries/fetch_lines.dart';
-import 'package:untrap/components/map.dart';
 import 'package:untrap/components/navigation_bar.dart';
+import 'package:untrap/model/theme.dart';
 import 'package:untrap/pages/lines.dart';
+import 'package:untrap/pages/map_page.dart';
+import 'package:untrap/pages/options_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +30,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'UnTrap',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: customTheme,
       home: const MyHomePage(),
     );
   }
@@ -59,8 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
         changePage: _changePage,
       ),
       body: [
-        const MapScreen(),
+        const MapPage(),
         const Lines(),
+        const OptionsPage(),
       ][currentPage],
     );
   }
