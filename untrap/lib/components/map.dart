@@ -5,8 +5,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:untrap/auxiliaries/fetch_buses.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
+//import 'package:untrap/auxiliaries/fetch_buses.dart';
 
 LatLng mapPosition = const LatLng(41.1579, -8.6291);
 double mapZoom = 13.0;
@@ -26,13 +26,13 @@ class NavigationMap extends StatefulWidget {
 
 class _NavigationMapState extends State<NavigationMap> {
   late Future<List<Marker>> stopMarkers;
-  late Future<List<Marker>> busMarkers;
+  //late Future<List<Marker>> busMarkers;
 
   @override
   void initState() {
     super.initState();
     stopMarkers = generateStopMarkers(context);
-    busMarkers = generateBusMarkers();
+    //busMarkers = generateBusMarkers();
     _initializeLocator();
     setState(() {});
   }
@@ -60,15 +60,15 @@ class _NavigationMapState extends State<NavigationMap> {
     return Stack(
       children: [
         FutureBuilder(
-            future: Future.wait([stopMarkers, busMarkers]),
+            future: stopMarkers, //Future.wait([stopMarkers, busMarkers]),
             builder: (context, snapshot) {
               if (snapshot.hasData == false) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                var stops = snapshot.data![0];
-                var buses = snapshot.data![1];
+                var stops = snapshot.data!;
+                //var buses = snapshot.data![1];
                 return FlutterMap(
                   mapController: mapController,
                   options: MapOptions(
@@ -108,7 +108,7 @@ class _NavigationMapState extends State<NavigationMap> {
                     ),
                     MarkerClusterLayerWidget(
                       options: MarkerClusterLayerOptions(
-                        maxClusterRadius: 30,
+                        maxClusterRadius: 15,
                         size: const Size(0, 0),
                         alignment: Alignment.center,
                         padding: const EdgeInsets.all(30),
@@ -119,7 +119,7 @@ class _NavigationMapState extends State<NavigationMap> {
                         },
                       ),
                     ),
-                    MarkerClusterLayerWidget(
+                    /*MarkerClusterLayerWidget(
                       options: MarkerClusterLayerOptions(
                         maxClusterRadius: 30,
                         size: const Size(0, 0),
@@ -131,7 +131,7 @@ class _NavigationMapState extends State<NavigationMap> {
                           return const SizedBox();
                         },
                       ),
-                    ),
+                    ),*/
                     CurrentLocationLayer(
                       alignPositionStream: alignPositionStreamController.stream,
                       alignPositionOnUpdate: alignPositionOnUpdate,

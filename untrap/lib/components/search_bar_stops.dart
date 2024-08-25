@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:untrap/auxiliaries/fetch_stops.dart';
 import 'package:untrap/model/stop.dart';
 import 'package:untrap/components/map.dart';
-import 'package:untrap/components/select_time.dart';
 
 class SearchBarStops extends StatefulWidget {
   const SearchBarStops({super.key, required this.refresh});
@@ -16,7 +15,6 @@ class SearchBarStops extends StatefulWidget {
 }
 
 class SearchBarStopsState extends State<SearchBarStops> {
-  late Timer timer;
   List<Stop> stops = [];
   List<Stop> filteredSuggestions = [];
 
@@ -24,23 +22,10 @@ class SearchBarStopsState extends State<SearchBarStops> {
   void initState() {
     super.initState();
     _getStops();
-    timer = Timer.periodic(const Duration(seconds: 30), (Timer t) {
-      if (selectedDate != DateTime.now() && !changed) {
-        setState(() {
-          selectedDate = DateTime.now();
-        });
-      }
-    });
   }
 
   Future<void> _getStops() async {
     stops = await fetchStops();
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
   }
 
   List<Stop> getSuggestionsBasedOnQuery(String query) {
@@ -69,31 +54,6 @@ class SearchBarStopsState extends State<SearchBarStops> {
             padding: EdgeInsets.only(left: 8.0),
             child: Icon(Icons.search),
           ),
-          trailing: <Widget>[
-            PopupMenuButton(
-              icon: const Icon(Icons.access_time),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                PopupMenuItem(
-                  onTap: () => selectDate(context),
-                  child: Text(
-                    "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
-                  ),
-                ),
-                PopupMenuItem(
-                  onTap: () => selectTime(context),
-                  child: Text(
-                    '${selectedDate.hour}:${selectedDate.minute.toString().padLeft(2, '0')}',
-                  ),
-                ),
-                PopupMenuItem(
-                  onTap: () => resetTime(),
-                  child: const Text(
-                    'Reset Time',
-                  ),
-                ),
-              ],
-            ),
-          ],
           hintText: 'Search',
         ),
       );

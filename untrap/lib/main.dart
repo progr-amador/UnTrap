@@ -1,8 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:untrap/auxiliaries/database.dart';
 import 'package:untrap/auxiliaries/fetch_lines.dart';
 import 'package:untrap/components/navigation_bar.dart';
-import 'package:untrap/model/theme.dart';
+//import 'package:untrap/model/theme.dart';
 import 'package:untrap/pages/lines.dart';
 import 'package:untrap/pages/map_page.dart';
 import 'package:untrap/pages/options_page.dart';
@@ -25,14 +27,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  MaterialColor primaryColor = Colors.blue;
+  Brightness mode = PlatformDispatcher.instance.platformBrightness;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'UnTrap',
-      theme: customTheme,
+      theme: ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryColor,
+        brightness: mode,
+      ),
+      brightness: mode,
+    ),
       home: const MyHomePage(),
     );
+  }
+
+  void changeColor(MaterialColor color) {
+    setState(() {
+      primaryColor = color;
+    });
+  }
+
+  void toggleMode() {
+    setState(() {
+      mode = mode == Brightness.dark ? Brightness.light : Brightness.dark;
+    });
   }
 }
 

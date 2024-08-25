@@ -12,15 +12,15 @@ Future<List<StopTime>> fetchUpcoming(String stopID) async {
 
   switch (generousDate.weekday) {
     case DateTime.saturday:
-      day = 'S';
+      day = 'SI';
     case DateTime.sunday:
-      day = 'D';
+      day = 'DJ';
     default:
-      day = 'U';
+      day = 'UK';
   }
 
   String query =
-      "SELECT stopID, lineName, tripDest, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) JOIN TRIP USING(tripID) WHERE stopID = '$stopID' AND time > '$time' AND weekday = '$day' ORDER BY time ASC LIMIT 10";
+      "SELECT stopID, lineName, tripDest, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) JOIN TRIP USING(tripID) WHERE stopID = '$stopID' AND time > '$time' AND weekday LIKE '%$day%' ORDER BY time ASC LIMIT 10";
   List<Map> result = await database.rawQuery(query);
 
   for (Map entry in result) {
