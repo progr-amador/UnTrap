@@ -25,10 +25,10 @@ Future<List<Stop>> fetchStops() async {
 }
 
 Future<List<Stop>> fetchLineStops(
-    String weekday, String lineName, int shift) async {
+    String day, String eday, String lineName, int shift) async {
   List<Stop> lineStops = [];
   List<Map> query = await database.rawQuery(
-      "SELECT stopName, stopID, stopZone FROM STOP JOIN STOP_TIME USING(stopID) WHERE weekday = '$weekday' AND lineName = '$lineName' AND shift = $shift ORDER BY time");
+      "SELECT stopName, stopID, stopZone FROM STOP JOIN STOP_TIME USING(stopID) WHERE (weekday = '$day' OR weekday = '$eday') AND lineName = '$lineName' AND shift = $shift ORDER BY time");
 
   for (Map stop in query) {
     lineStops.add(

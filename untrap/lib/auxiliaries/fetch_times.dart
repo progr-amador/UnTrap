@@ -5,22 +5,25 @@ import 'package:untrap/model/stop_time.dart';
 Future<List<StopTime>> fetchUpcoming(String stopID) async {
   List<StopTime> stopTimes = [];
   DateTime generousDate = selectedDate.subtract(const Duration(minutes: 5));
-  String day;
-  String time = generousDate.hour < 10 ? 
-    "0${generousDate.hour}:${generousDate.minute}:${generousDate.second}":
-    "${generousDate.hour}:${generousDate.minute}:${generousDate.second}";
+  String day, eday;
+  String time = generousDate.hour < 10
+      ? "0${generousDate.hour}:${generousDate.minute}:${generousDate.second}"
+      : "${generousDate.hour}:${generousDate.minute}:${generousDate.second}";
 
   switch (generousDate.weekday) {
     case DateTime.saturday:
-      day = 'SI';
+      day = 'S';
+      eday = 'I';
     case DateTime.sunday:
-      day = 'DJ';
+      day = 'D';
+      eday = 'J';
     default:
-      day = 'UK';
+      day = 'U';
+      eday = 'K';
   }
 
   String query =
-      "SELECT stopID, lineName, tripDest, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) JOIN TRIP USING(tripID) WHERE stopID = '$stopID' AND time > '$time' AND weekday LIKE '%$day%' ORDER BY time ASC LIMIT 10";
+      "SELECT stopID, lineName, tripDest, direction, weekday, shift, time, lineOperator, lineColor FROM STOP_TIME JOIN LINE USING(lineName) JOIN TRIP USING(tripID) WHERE stopID = '$stopID' AND time > '$time' AND (weekday = '$day' OR weekday = '$eday') ORDER BY time ASC LIMIT 10";
   List<Map> result = await database.rawQuery(query);
 
   for (Map entry in result) {

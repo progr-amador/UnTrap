@@ -13,6 +13,7 @@ class LinePage extends StatefulWidget {
 
 class _LinePageState extends State<LinePage> {
   String day = 'S';
+  String eday = 'I';
   int direction = 1;
 
   @override
@@ -21,10 +22,13 @@ class _LinePageState extends State<LinePage> {
     switch (selectedDate.weekday) {
       case DateTime.saturday:
         day = 'S';
+        eday = 'I';
       case DateTime.sunday:
         day = 'D';
+        eday = 'J';
       default:
         day = 'U';
+        eday = 'K';
     }
   }
 
@@ -71,7 +75,8 @@ class _LinePageState extends State<LinePage> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: fetchLineStops(day, widget.line.name, direction + 3),
+              future:
+                  fetchLineStops(day, eday, widget.line.name, direction + 3),
               builder: (context, snapshot) {
                 if (snapshot.hasData == false) {
                   return const Center(child: CircularProgressIndicator());
