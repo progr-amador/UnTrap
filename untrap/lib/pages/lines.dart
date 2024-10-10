@@ -6,11 +6,10 @@ class Lines extends StatefulWidget {
   const Lines({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LinesState createState() => _LinesState();
+  LinesState createState() => LinesState();
 }
 
-class _LinesState extends State<Lines> {
+class LinesState extends State<Lines> {
   List<Line> filteredLines = [];
 
   @override

@@ -8,11 +8,10 @@ class OptionsPage extends StatefulWidget {
   const OptionsPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _OptionsPageState createState() => _OptionsPageState();
+  OptionsPageState createState() => OptionsPageState();
 }
 
-class _OptionsPageState extends State<OptionsPage> {
+class OptionsPageState extends State<OptionsPage> {
   _changeDate() async {
     await selectDate(context);
     setState(() {});

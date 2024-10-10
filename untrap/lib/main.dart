@@ -17,16 +17,16 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  static _MyAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>();
+  static MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<MyAppState>();
 
   const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   MaterialColor primaryColor = Colors.blue;
   Brightness mode = PlatformDispatcher.instance.platformBrightness;
 

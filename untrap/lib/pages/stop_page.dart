@@ -11,10 +11,10 @@ class StopPage extends StatefulWidget {
   const StopPage({super.key, required this.stop});
 
   @override
-  _StopPageState createState() => _StopPageState();
+  StopPageState createState() => StopPageState();
 }
 
-class _StopPageState extends State<StopPage> {
+class StopPageState extends State<StopPage> {
   late Timer timer;
   late Future<List<StopTime>> upcoming;
 

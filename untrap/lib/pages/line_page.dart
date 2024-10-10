@@ -8,10 +8,10 @@ class LinePage extends StatefulWidget {
   const LinePage({super.key, required this.line});
 
   @override
-  _LinePageState createState() => _LinePageState();
+  LinePageState createState() => LinePageState();
 }
 
-class _LinePageState extends State<LinePage> {
+class LinePageState extends State<LinePage> {
   String day = 'S';
   String eday = 'I';
   int direction = 1;

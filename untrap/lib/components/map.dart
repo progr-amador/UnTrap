@@ -20,11 +20,10 @@ class NavigationMap extends StatefulWidget {
   const NavigationMap({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _NavigationMapState createState() => _NavigationMapState();
+  NavigationMapState createState() => NavigationMapState();
 }
 
-class _NavigationMapState extends State<NavigationMap> {
+class NavigationMapState extends State<NavigationMap> {
   late Future<List<Marker>> stopMarkers;
   //late Future<List<Marker>> busMarkers;
 
@@ -49,11 +48,6 @@ class _NavigationMapState extends State<NavigationMap> {
     });
   }
 
-  void _refresh() {
-    setState(
-      () => alignPositionOnUpdate = AlignOnUpdate.never,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

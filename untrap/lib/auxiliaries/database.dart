@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+// ignore: prefer_typing_uninitialized_variables
 var database;
 
 Future<void> initializeDatabase() async {
@@ -14,7 +15,7 @@ Future<void> initializeDatabase() async {
 
   if (!exists) {
     // Should happen only the first time you launch your application
-    print("Creating new copy from asset");
+    //print("Creating new copy from asset");
 
     // Make sure the parent directory exists
     try {
@@ -28,10 +29,7 @@ Future<void> initializeDatabase() async {
 
     // Write and flush the bytes written
     await File(path).writeAsBytes(bytes, flush: true);
-  } else {
-    print("Opening existing database");
   }
-
   database = await openDatabase(path, readOnly: true);
 }
 
@@ -39,7 +37,7 @@ Future<void> eraseDatabase() async {
   var databasesPath = await getDatabasesPath();
   var path = join(databasesPath, "untrap.db");
 
-  print(path);
+  //print(path);
 
   database = await openDatabase(path, readOnly: true);
   await database.close();

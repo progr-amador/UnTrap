@@ -8,11 +8,10 @@ class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _MapPageState createState() => _MapPageState();
+  MapPageState createState() => MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();

@@ -6,7 +6,7 @@ import 'package:untrap/model/stop_time.dart';
 class BusScheduleModal extends StatefulWidget {
   final Stop stop;
 
-  BusScheduleModal({super.key, required this.stop});
+  const BusScheduleModal({super.key, required this.stop});
 
   @override
   State<BusScheduleModal> createState() => _BusScheduleModalState();
